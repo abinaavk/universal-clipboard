@@ -1,5 +1,10 @@
-# Production stack: the relay + Caddy for HTTPS.   docker compose up -d --build
-# Copy deploy/env.example to .env and fill it in first.
+# Production stack: the relay on a fixed host port (default 7410, from the 7000-8000 range).
+#   1. fill in .env
+#   2. docker compose up -d --build         -> http://<host>:${UC_PORT}
+# Point your own HTTPS reverse proxy / tunnel for uclip.gaiasentinel.online at that port.
+# HTTPS is required for the web app, Google sign-in and the installers. To let this stack
+# terminate HTTPS itself instead (ports 80/443 + automatic certificates):
+#   docker compose --profile https up -d --build
 services:
   app:
     build: .
@@ -9,9 +14,11 @@ services:
       UC_PUBLIC_URL: https://${UC_DOMAIN:-uclip.gaiasentinel.online}
     volumes:
       - uclip-data:/data
-    expose:
-      - '8787'
+    ports:
+      # UC_BIND=127.0.0.1 if your reverse proxy runs on this same machine
+      - '${UC_BIND:-0.0.0.0}:${UC_PORT:-7410}:8787'
   caddy:
+    profiles: [https]
     image: caddy:2-alpine
     restart: unless-stopped
     depends_on: [app]

@@ -53,12 +53,18 @@ npm start                 # http://127.0.0.1:8787, no dependencies, Node 20+
 npm test
 ```
 
-Production (HTTPS via Caddy, automatic certificates):
+Production (Docker). The relay is published on host port `UC_PORT` (default `7410`, pick any free port in 7000-8000):
 
 ```bash
-cp deploy/env.example .env      # fill in the keys, see below
-docker compose up -d --build    # serves https://$UC_DOMAIN
+# 1. fill in .env (committed with empty values): UC_PORT, UC_RESEND_API_KEY, UC_GOOGLE_CLIENT_ID/SECRET, ...
+docker compose up -d --build    # http://<host>:7410
+# 2. point your HTTPS reverse proxy / tunnel for uclip.gaiasentinel.online at that port
+#    (set UC_BIND=127.0.0.1 in .env if the proxy is on the same machine)
 ```
+
+HTTPS is required for the web app, Google sign-in and the installers. To let this stack serve HTTPS itself (ports 80/443, automatic certificates) use `docker compose --profile https up -d --build`.
+
+Do not push real keys back to git: `.env` is tracked only as an empty template.
 
 What you need to supply:
 
