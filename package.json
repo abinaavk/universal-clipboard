@@ -1,0 +1,13 @@
+{
+  "name": "universal-clipboard",
+  "version": "0.1.0",
+  "description": "Private, end-to-end encrypted clipboard sync for Windows, Linux, Android and browsers.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "bin": { "uclip": "cli/uclip.js" },
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node --test \"test/*.test.js\""
+  }
+}

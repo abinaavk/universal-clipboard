@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1f6feb">
+  <title>Universal Clipboard</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Universal Clipboard</h1>
+    <span id="status" class="pill">offline</span>
+  </header>
+
+  <main>
+    <section id="login" hidden>
+      <p>Enter your vault passphrase. It is turned into an encryption key <strong>in this browser</strong>; the server never sees it.</p>
+      <form id="login-form">
+        <input id="passphrase" type="password" autocomplete="off" placeholder="xxxxx-xxxxx-xxxxx-…" required>
+        <button type="submit">Connect</button>
+        <button type="button" id="generate" class="secondary">New vault</button>
+      </form>
+      <p id="generated" class="note" hidden></p>
+      <p id="login-error" class="error" hidden></p>
+    </section>
+
+    <section id="app" hidden>
+      <form id="send-form">
+        <textarea id="text" rows="3" placeholder="Type or paste something to send to your other devices…"></textarea>
+        <div class="row">
+          <button type="submit">Send</button>
+          <button type="button" id="paste" class="secondary">Paste from clipboard &amp; send</button>
+          <label class="toggle"><input type="checkbox" id="auto"> Auto-copy incoming</label>
+        </div>
+      </form>
+      <ul id="history"></ul>
+      <p id="empty" class="note" hidden>Nothing here yet. Copy something on another device.</p>
+      <div class="row footer">
+        <button type="button" id="share-link" class="secondary">Copy sign-in link for another device</button>
+        <button type="button" id="logout" class="secondary">Sign out</button>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

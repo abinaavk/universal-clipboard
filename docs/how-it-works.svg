@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+<defs>
+<marker id="ah-2563eb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+<marker id="at-2563eb" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/></marker>
+<marker id="ah-dc2626" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker>
+<marker id="at-dc2626" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/></marker>
+<marker id="ah-16a34a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+<marker id="at-16a34a" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#16a34a"/></marker>
+</defs>
+<rect width="1600" height="1200" fill="#f8fafc"/>
+<text x="40" y="48" font-size="30" font-weight="bold" fill="#1f2937" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Universal Clipboard — how it works</text>
+<text x="40" y="76" font-size="15" font-weight="normal" fill="#475569" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Copy on one device, paste on another. Everything is encrypted on your device before it leaves; the relay only ever sees ciphertext.</text>
+<text x="40" y="118" font-size="19" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">1 · Devices and accounts</text>
+<text x="40" y="140" font-size="13" font-weight="normal" fill="#475569" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Accounts = vaults. Same passphrase → same vault. A different passphrase → a separate vault that cannot see the first.</text>
+<text x="40" y="172" font-size="15" font-weight="bold" fill="#0f172a" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Alice · passphrase A</text>
+<rect x="40" y="184" width="440" height="108" rx="12" fill="#fff" stroke="#2563eb" stroke-width="2" />
+<text x="56" y="212" font-size="17" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Windows PC</text>
+<text x="56" y="236" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">uclip daemon (runs in background)</text>
+<text x="56" y="255" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Reads/writes the clipboard via built-in PowerShell</text>
+<text x="56" y="274" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Checks for changes every second</text>
+<rect x="40" y="304" width="440" height="108" rx="12" fill="#fff" stroke="#2563eb" stroke-width="2" />
+<text x="56" y="332" font-size="17" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Linux desktop</text>
+<text x="56" y="356" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">uclip daemon (runs in background)</text>
+<text x="56" y="375" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">wl-clipboard (Wayland) or xclip / xsel (X11)</text>
+<text x="56" y="394" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Checks for changes every second</text>
+<rect x="40" y="424" width="440" height="108" rx="12" fill="#fff" stroke="#2563eb" stroke-width="2" />
+<text x="56" y="452" font-size="17" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Android phone</text>
+<text x="56" y="476" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Web app (PWA): Share → Universal Clipboard</text>
+<text x="56" y="495" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Open app to see + copy items; auto-copy when focused</text>
+<text x="56" y="514" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Background sync: uclip daemon in Termux</text>
+<rect x="40" y="544" width="440" height="108" rx="12" fill="#fff" stroke="#2563eb" stroke-width="2" />
+<text x="56" y="572" font-size="17" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Any browser</text>
+<text x="56" y="596" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Open the server URL, enter passphrase A</text>
+<text x="56" y="615" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Key kept as non-extractable WebCrypto key</text>
+<text x="56" y="634" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Syncs while the tab is open</text>
+<rect x="640" y="160" width="320" height="520" rx="16" fill="#eef2ff" stroke="#6366f1" stroke-width="2.5" />
+<text x="800" y="192" font-size="20" font-weight="bold" fill="#3730a3" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Relay server</text>
+<text x="800" y="214" font-size="12.5" font-weight="normal" fill="#4338ca" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">stores ciphertext only · pushes live (SSE)</text>
+<text x="800" y="232" font-size="12.5" font-weight="normal" fill="#4338ca" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">last 100 items · 7 days</text>
+<rect x="668" y="256" width="264" height="170" rx="12" fill="#fff" stroke="#2563eb" stroke-width="2" />
+<text x="800" y="284" font-size="16" font-weight="bold" fill="#2563eb" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Vault A</text>
+<text x="800" y="304" font-size="12" font-weight="normal" fill="#475569" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">id = SHA-256(token A)</text>
+<text x="800" y="334" font-size="12" font-weight="normal" fill="#94a3b8" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">9f3a… c01d… (ciphertext)</text>
+<text x="800" y="356" font-size="12" font-weight="normal" fill="#94a3b8" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">e771… 04b2… (ciphertext)</text>
+<text x="800" y="378" font-size="12" font-weight="normal" fill="#94a3b8" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">41c8… ae90… (ciphertext)</text>
+<rect x="668" y="486" width="264" height="170" rx="12" fill="#fff" stroke="#16a34a" stroke-width="2" />
+<text x="800" y="514" font-size="16" font-weight="bold" fill="#16a34a" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Vault B</text>
+<text x="800" y="534" font-size="12" font-weight="normal" fill="#475569" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">id = SHA-256(token B)</text>
+<text x="800" y="564" font-size="12" font-weight="normal" fill="#94a3b8" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">b208… 7d55… (ciphertext)</text>
+<text x="800" y="586" font-size="12" font-weight="normal" fill="#94a3b8" text-anchor="middle" font-family="'DejaVu Sans Mono','Consolas',monospace">0ac4… 91ee… (ciphertext)</text>
+<text x="800" y="468" font-size="13" font-weight="bold" fill="#dc2626" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">✕  no access between vaults</text>
+<line x1="690" y1="446" x2="910" y2="446" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="1120" y="172" font-size="15" font-weight="bold" fill="#0f172a" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Bob · passphrase B (another person or account)</text>
+<rect x="1120" y="424" width="440" height="108" rx="12" fill="#fff" stroke="#16a34a" stroke-width="2" />
+<text x="1136" y="452" font-size="17" font-weight="bold" fill="#16a34a" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">macOS / Windows (user “bob”)</text>
+<text x="1136" y="476" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">uclip daemon with its own config</text>
+<text x="1136" y="495" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Passphrase B → Vault B</text>
+<text x="1136" y="514" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Never sees Alice’s items</text>
+<rect x="1120" y="544" width="440" height="108" rx="12" fill="#fff" stroke="#16a34a" stroke-width="2" />
+<text x="1136" y="572" font-size="17" font-weight="bold" fill="#16a34a" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Phone / browser</text>
+<text x="1136" y="596" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Web app with passphrase B</text>
+<text x="1136" y="615" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Separate key, separate history</text>
+<text x="1136" y="634" font-size="13" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Same server, no overlap</text>
+<rect x="1120" y="184" width="440" height="216" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="1136" y="212" font-size="16" font-weight="bold" fill="#b45309" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Two accounts on one computer?</text>
+<text x="1136" y="238" font-size="13" font-weight="normal" fill="#78350f" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Each OS user has their own config file:</text>
+<text x="1136" y="259" font-size="13" font-weight="normal" fill="#78350f" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">~/.config/universal-clipboard/config.json</text>
+<text x="1136" y="280" font-size="13" font-weight="normal" fill="#78350f" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">%APPDATA%\universal-clipboard\config.json</text>
+<text x="1136" y="301" font-size="13" font-weight="normal" fill="#78350f" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Same passphrase in both → they share a vault.</text>
+<text x="1136" y="322" font-size="13" font-weight="normal" fill="#78350f" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Different passphrase → fully separate clipboards.</text>
+<text x="1136" y="343" font-size="13" font-weight="normal" fill="#78350f" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Run one daemon per OS user.</text>
+<line x1="480" y1="238" x2="668" y2="300" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" marker-start="url(#at-2563eb)"/>
+<line x1="480" y1="358" x2="668" y2="330" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" marker-start="url(#at-2563eb)"/>
+<line x1="480" y1="478" x2="668" y2="358" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" marker-start="url(#at-2563eb)"/>
+<line x1="480" y1="598" x2="668" y2="384" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" marker-start="url(#at-2563eb)"/>
+<line x1="1120" y1="478" x2="932" y2="540" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ah-16a34a)" marker-start="url(#at-16a34a)"/>
+<line x1="1120" y1="598" x2="932" y2="590" stroke="#16a34a" stroke-width="2.5" marker-end="url(#ah-16a34a)" marker-start="url(#at-16a34a)"/>
+<text x="560" y="176" font-size="12" font-weight="bold" fill="#2563eb" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">HTTPS</text>
+<text x="1040" y="176" font-size="12" font-weight="bold" fill="#16a34a" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">HTTPS</text>
+<text x="40" y="720" font-size="19" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">2 · How one copy travels  (Windows → Android, same for any pair)</text>
+<rect x="40" y="744" width="235" height="170" rx="12" fill="#fff" stroke="#2563eb" stroke-width="2" />
+<circle cx="66" cy="774" r="15" fill="#2563eb"/>
+<text x="66" y="780" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">1</text>
+<text x="90" y="780" font-size="16" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Copy</text>
+<text x="56" y="816" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Press Ctrl+C as usual.</text>
+<text x="56" y="836" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">The daemon sees the clipboard</text>
+<text x="56" y="856" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">change (checks every 1 s).</text>
+<line x1="277" y1="829" x2="295" y2="829" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" />
+<rect x="297" y="744" width="235" height="170" rx="12" fill="#fff" stroke="#7c3aed" stroke-width="2" />
+<circle cx="323" cy="774" r="15" fill="#7c3aed"/>
+<text x="323" y="780" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">2</text>
+<text x="347" y="780" font-size="16" font-weight="bold" fill="#7c3aed" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Encrypt on device</text>
+<text x="313" y="816" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">AES-256-GCM, key from your</text>
+<text x="313" y="836" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">passphrase (PBKDF2, 310k).</text>
+<text x="313" y="856" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">New random IV per item.</text>
+<line x1="534" y1="829" x2="552" y2="829" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" />
+<rect x="554" y="744" width="235" height="170" rx="12" fill="#fff" stroke="#6366f1" stroke-width="2" />
+<circle cx="580" cy="774" r="15" fill="#6366f1"/>
+<text x="580" y="780" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">3</text>
+<text x="604" y="780" font-size="16" font-weight="bold" fill="#6366f1" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Upload</text>
+<text x="570" y="816" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">POST ciphertext + device name</text>
+<text x="570" y="836" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">over HTTPS. The server stores</text>
+<text x="570" y="856" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">only the encrypted blob.</text>
+<line x1="791" y1="829" x2="809" y2="829" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" />
+<rect x="811" y="744" width="235" height="170" rx="12" fill="#fff" stroke="#6366f1" stroke-width="2" />
+<circle cx="837" cy="774" r="15" fill="#6366f1"/>
+<text x="837" y="780" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">4</text>
+<text x="861" y="780" font-size="16" font-weight="bold" fill="#6366f1" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Live push</text>
+<text x="827" y="816" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Relay streams it to every other</text>
+<text x="827" y="836" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">device in the vault (SSE).</text>
+<text x="827" y="856" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Offline? Missed items replay.</text>
+<line x1="1048" y1="829" x2="1066" y2="829" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" />
+<rect x="1068" y="744" width="235" height="170" rx="12" fill="#fff" stroke="#7c3aed" stroke-width="2" />
+<circle cx="1094" cy="774" r="15" fill="#7c3aed"/>
+<text x="1094" y="780" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">5</text>
+<text x="1118" y="780" font-size="16" font-weight="bold" fill="#7c3aed" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Decrypt on device</text>
+<text x="1084" y="816" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Each device decrypts locally.</text>
+<text x="1084" y="836" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Tampered data fails the GCM</text>
+<text x="1084" y="856" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">check and is dropped.</text>
+<line x1="1305" y1="829" x2="1323" y2="829" stroke="#2563eb" stroke-width="2.5" marker-end="url(#ah-2563eb)" />
+<rect x="1325" y="744" width="235" height="170" rx="12" fill="#fff" stroke="#16a34a" stroke-width="2" />
+<circle cx="1351" cy="774" r="15" fill="#16a34a"/>
+<text x="1351" y="780" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">6</text>
+<text x="1375" y="780" font-size="16" font-weight="bold" fill="#16a34a" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Paste</text>
+<text x="1341" y="816" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Daemon writes the clipboard;</text>
+<text x="1341" y="836" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">in the web app tap Copy, or turn</text>
+<text x="1341" y="856" font-size="12.5" font-weight="normal" fill="#334155" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">on auto-copy. Then Ctrl+V.</text>
+<rect x="40" y="934" width="1520" height="40" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5" />
+<text x="800" y="960" font-size="13" font-weight="normal" fill="#166534" text-anchor="middle" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Plain text exists only on your devices.  Passphrase never leaves the device · server sees ciphertext, timestamps, sizes · a device ignores what it just received (no ping-pong).</text>
+<text x="40" y="1010" font-size="19" font-weight="bold" fill="#2563eb" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">3 · Set up each device</text>
+<rect x="40" y="1030" width="367" height="140" rx="10" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="54" y="1056" font-size="16" font-weight="bold" fill="#93c5fd" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Windows</text>
+<text x="145" y="1056" font-size="11.5" font-weight="normal" fill="#94a3b8" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">PowerShell</text>
+<text x="54" y="1086" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">uclip init --server https://clip.example.com</text>
+<text x="54" y="1110" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">--passphrase &lt;PASSPHRASE&gt;</text>
+<text x="54" y="1134" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">uclip daemon</text>
+<rect x="424" y="1030" width="367" height="140" rx="10" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="438" y="1056" font-size="16" font-weight="bold" fill="#93c5fd" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Linux</text>
+<text x="507" y="1056" font-size="11.5" font-weight="normal" fill="#94a3b8" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">terminal</text>
+<text x="438" y="1086" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">uclip init --server https://clip.example.com</text>
+<text x="438" y="1110" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">--passphrase &lt;PASSPHRASE&gt;</text>
+<text x="438" y="1134" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">uclip daemon  # needs wl-clipboard/xclip</text>
+<rect x="808" y="1030" width="367" height="140" rx="10" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="822" y="1056" font-size="16" font-weight="bold" fill="#93c5fd" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Android</text>
+<text x="913" y="1056" font-size="11.5" font-weight="normal" fill="#94a3b8" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Chrome + Termux (optional)</text>
+<text x="822" y="1086" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">Open server URL → Add to Home screen</text>
+<text x="822" y="1110" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">Enter passphrase, or open the uclip pair link</text>
+<text x="822" y="1134" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">Termux: pkg i termux-api; uclip daemon</text>
+<rect x="1192" y="1030" width="367" height="140" rx="10" fill="#0f172a" stroke="#0f172a" stroke-width="1.5" />
+<text x="1206" y="1056" font-size="16" font-weight="bold" fill="#93c5fd" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Browser</text>
+<text x="1297" y="1056" font-size="11.5" font-weight="normal" fill="#94a3b8" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">any modern browser (HTTPS)</text>
+<text x="1206" y="1086" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">Open the server URL, enter the passphrase</text>
+<text x="1206" y="1110" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">or open the link printed by uclip pair</text>
+<text x="1206" y="1134" font-size="11" font-weight="normal" fill="#e2e8f0" text-anchor="start" font-family="'DejaVu Sans Mono','Consolas',monospace">Enable auto-copy; keep the tab open</text>
+<text x="40" y="1186" font-size="12" font-weight="normal" fill="#64748b" text-anchor="start" font-family="'DejaVu Sans','Segoe UI',Arial,sans-serif">Start the relay first: npm start (or docker build -t uclip . &amp;&amp; docker run -p 8787:8787 uclip), behind HTTPS.  First device: uclip init prints a new passphrase; reuse it on every other device.</text>
+</svg>
