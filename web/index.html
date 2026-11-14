@@ -1,49 +1,226 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1f6feb">
-  <title>Universal Clipboard</title>
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Universal Clipboard: private clipboard sync for Windows, Linux, Android and browsers</title>
+<meta name="description" content="Copy on one device, paste on another. A private, end-to-end encrypted clipboard that syncs live across Windows, Linux, Android and any browser. Sign in with email or Google.">
+<meta name="robots" content="index,follow">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0d1016">
+<link rel="canonical" href="{{ORIGIN}}/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:site_name" content="Universal Clipboard">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Universal Clipboard: private clipboard sync for Windows, Linux, Android and browsers">
+<meta property="og:description" content="Copy on one device, paste on another. A private, end-to-end encrypted clipboard that syncs live across Windows, Linux, Android and any browser. Sign in with email or Google.">
+<meta property="og:url" content="{{ORIGIN}}/">
+<meta property="og:image" content="{{ORIGIN}}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Universal Clipboard: copy here, paste there">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Universal Clipboard: private clipboard sync for Windows, Linux, Android and browsers">
+<meta name="twitter:description" content="Copy on one device, paste on another. A private, end-to-end encrypted clipboard that syncs live across Windows, Linux, Android and any browser. Sign in with email or Google.">
+<meta name="twitter:image" content="{{ORIGIN}}/og.png">
+<link rel="stylesheet" href="/style.css">
+<script type="application/ld+json">{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "SoftwareApplication",
+   "name": "Universal Clipboard",
+   "alternateName": "uclip",
+   "applicationCategory": "UtilitiesApplication",
+   "operatingSystem": "Windows, Linux, macOS, Android, Web",
+   "url": "{{ORIGIN}}/",
+   "image": "{{ORIGIN}}/og.png",
+   "description": "Private, end-to-end encrypted clipboard that syncs across Windows, Linux, Android and browsers.",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+   }
+  },
+  {
+   "@type": "WebSite",
+   "name": "Universal Clipboard",
+   "url": "{{ORIGIN}}/"
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Can you read my clipboard?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. Everything you copy is encrypted on your device with a key that is derived from your password (or clipboard passphrase) and never sent to us. The server only stores ciphertext and cannot decrypt it."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What happens if I forget my password?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You can reset it by email, but because only your password can unlock your clipboard key, the old clipboard history is deleted on reset. Your account and devices keep working. Clipboard items expire after 7 days anyway."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Does it sync when I am signed out?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "No. A device only reads or writes its clipboard while it has an active session. Sign out, revoke the device from the website, or let the session expire and syncing on that device stops immediately."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Which platforms are supported?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Windows, Linux (Wayland and X11), macOS and Android through the uclip command-line app, plus any modern browser and an installable Android web app."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What does it cost?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Nothing to try. This is a private deployment: sign-ups may be limited by the operator."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I use my own server?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes. The relay is a single dependency-free Node.js program with Docker and Caddy files included. Point the CLI at it with --server."
+     }
+    }
+   ]
+  }
+ ]
+}</script>
 </head>
 <body>
-  <header>
-    <h1>Universal Clipboard</h1>
-    <span id="status" class="pill">offline</span>
-  </header>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Universal Clipboard home"><img src="/icon.svg" alt="" width="30" height="30"><span>u<b>clip</b></span></a>
+    <nav aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#install">Install</a>
+      <a href="/security">Security</a>
+      <a href="/docs">API</a>
+      <a class="btn small ghost" href="/login">Sign in</a>
+      <a class="btn small" href="/signup">Get started</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="wrap hero">
+  <div>
+    <p class="eyebrow">Private clipboard sync</p>
+    <h1>Copy here.<br><em>Paste there.</em></h1>
+    <p class="lead">One clipboard for Windows, Linux, Android and every browser. Copy the normal way on one device and it appears on all your signed-in devices within a second. End-to-end encrypted, so we cannot read it.</p>
+    <div class="row cta">
+      <a class="btn" href="/signup">Create your account</a>
+      <a class="btn ghost" href="/login">Sign in</a>
+    </div>
+    <div class="proof"><span>End-to-end encrypted</span><span>Live in every session</span><span>Email or Google sign-in</span></div>
+  </div>
+  <div class="stage" aria-hidden="true">
+    <div class="dev win"><header><span>Windows</span><span>Ctrl+C</span></header><div class="clip">git push origin main</div><div class="line w1"></div><div class="line w2"></div></div>
+    <div class="dev droid"><header><span>Android</span><span>live</span></header><div class="line w1"></div><div class="line w3"></div><div class="line w2"></div></div>
+    <div class="dev term"><code><span class="p">$</span> uclip daemon</code><code>session active as you@mail.com</code><code>&lt;- windows (14 chars)</code></div>
+    <span class="fly">git push origin main</span><span class="fly two">https://…</span>
+  </div>
+</section>
 
-  <main>
-    <section id="login" hidden>
-      <p>Enter your vault passphrase. It is turned into an encryption key <strong>in this browser</strong>; the server never sees it.</p>
-      <form id="login-form">
-        <input id="passphrase" type="password" autocomplete="off" placeholder="xxxxx-xxxxx-xxxxx-…" required>
-        <button type="submit">Connect</button>
-        <button type="button" id="generate" class="secondary">New vault</button>
-      </form>
-      <p id="generated" class="note" hidden></p>
-      <p id="login-error" class="error" hidden></p>
-    </section>
+<section class="section" id="how"><div class="wrap">
+  <h2>Three steps, then forget it exists</h2>
+  <p class="lead">No pairing codes to retype every day. Sign in once per device and copy like you always do.</p>
+  <div class="steps">
+    <div class="step"><h3>Create an account</h3><p>Sign up on this website with email and password, or continue with Google.</p></div>
+    <div class="step"><h3>Sign in on each device</h3><p>In a browser, just sign in. On a computer or phone, run <code>uclip login</code> and approve the code on this site.</p></div>
+    <div class="step"><h3>Copy as usual</h3><p>Use your normal copy command. Anything copied on one signed-in device shows up on the others, live.</p></div>
+  </div>
+</div></section>
 
-    <section id="app" hidden>
-      <form id="send-form">
-        <textarea id="text" rows="3" placeholder="Type or paste something to send to your other devices…"></textarea>
-        <div class="row">
-          <button type="submit">Send</button>
-          <button type="button" id="paste" class="secondary">Paste from clipboard &amp; send</button>
-          <label class="toggle"><input type="checkbox" id="auto"> Auto-copy incoming</label>
-        </div>
-      </form>
-      <ul id="history"></ul>
-      <p id="empty" class="note" hidden>Nothing here yet. Copy something on another device.</p>
-      <div class="row footer">
-        <button type="button" id="share-link" class="secondary">Copy sign-in link for another device</button>
-        <button type="button" id="logout" class="secondary">Sign out</button>
-      </div>
-    </section>
-  </main>
-  <script type="module" src="/app.js"></script>
+<section class="section"><div class="wrap">
+  <h2>Built to be trusted</h2>
+  <div class="grid">
+    <div class="card"><span class="ico">🔐</span><h3>End-to-end encrypted</h3><p>AES-256-GCM, keys derived on your device. The server stores ciphertext only.</p></div>
+    <div class="card"><span class="ico">⚡</span><h3>Live in every session</h3><p>Open tabs and daemons receive new clips instantly over a streaming connection.</p></div>
+    <div class="card"><span class="ico">🪪</span><h3>Active sessions only</h3><p>No session, no clipboard access. Revoke a device and it stops on the spot.</p></div>
+    <div class="card"><span class="ico">🖥️</span><h3>Every platform</h3><p>Windows PowerShell, Wayland, X11, macOS, Termux and any browser.</p></div>
+    <div class="card"><span class="ico">🧩</span><h3>Open API</h3><p>A documented HTTP API with an OpenAPI spec for your own scripts and tools.</p></div>
+    <div class="card"><span class="ico">🏠</span><h3>Self-hostable</h3><p>One small Node.js server with Docker and Caddy files. Your data, your domain.</p></div>
+  </div>
+</div></section>
+
+<section class="section" id="install"><div class="wrap">
+  <h2>Install on your devices</h2>
+  <p class="lead">The browser app needs no install. For background sync on a computer or phone, add the <code>uclip</code> app (needs Node.js 20 or newer).</p>
+  <div class="tabs" role="tablist" aria-label="Operating system">
+    <button class="tab" role="tab" id="t-linux" aria-controls="p-linux" aria-selected="true">Linux / macOS</button>
+    <button class="tab" role="tab" id="t-win" aria-controls="p-win" aria-selected="false">Windows</button>
+    <button class="tab" role="tab" id="t-android" aria-controls="p-android" aria-selected="false">Android</button>
+    <button class="tab" role="tab" id="t-web" aria-controls="p-web" aria-selected="false">Browser</button>
+  </div>
+  <div class="panel" role="tabpanel" id="p-linux" aria-labelledby="t-linux">
+    <ol>
+      <li>Install Node.js 20+, and on Linux a clipboard tool: <code>wl-clipboard</code> (Wayland) or <code>xclip</code> (X11).</li>
+      <li>Install uclip:<div class="cmd"><code>curl -fsSL {{ORIGIN}}/install.sh | sh</code><button type="button" data-copy>Copy</button></div></li>
+      <li>Sign in and approve the code in your browser:<div class="cmd"><code>uclip login</code><button type="button" data-copy>Copy</button></div></li>
+      <li>Start syncing:<div class="cmd"><code>uclip daemon</code><button type="button" data-copy>Copy</button></div></li>
+    </ol>
+  </div>
+  <div class="panel" role="tabpanel" id="p-win" aria-labelledby="t-win" hidden>
+    <ol>
+      <li>Install Node.js 20+ from nodejs.org. PowerShell is the only other requirement.</li>
+      <li>Install uclip in PowerShell:<div class="cmd"><code>irm {{ORIGIN}}/install.ps1 | iex</code><button type="button" data-copy>Copy</button></div></li>
+      <li>Open a new terminal, then sign in and approve the code in your browser:<div class="cmd"><code>uclip login</code><button type="button" data-copy>Copy</button></div></li>
+      <li>Start syncing:<div class="cmd"><code>uclip daemon</code><button type="button" data-copy>Copy</button></div></li>
+    </ol>
+  </div>
+  <div class="panel" role="tabpanel" id="p-android" aria-labelledby="t-android" hidden>
+    <ol>
+      <li><strong>Quick way:</strong> open <a href="/app">this site</a> in Chrome, sign in, then menu → <em>Install app</em>. Use Share → <em>uclip</em> to send text, and keep the app open to receive.</li>
+      <li><strong>Background sync:</strong> in Termux run <code>pkg install nodejs termux-api</code> and install the Termux:API app.<div class="cmd"><code>curl -fsSL {{ORIGIN}}/install.sh | sh</code><button type="button" data-copy>Copy</button></div><div class="cmd"><code>uclip login && uclip daemon</code><button type="button" data-copy>Copy</button></div></li>
+    </ol>
+  </div>
+  <div class="panel" role="tabpanel" id="p-web" aria-labelledby="t-web" hidden>
+    <ol>
+      <li>Open <a href="/app">{{ORIGIN}}/app</a> and sign in.</li>
+      <li>Paste (<kbd>Ctrl</kbd>+<kbd>V</kbd>) anywhere on the page to send, or turn on <em>Capture on return</em> to send whatever you copied when you come back to the tab.</li>
+      <li>Turn on <em>Auto-copy incoming</em> to have new clips land on your clipboard while the tab is open.</li>
+    </ol>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>Questions</h2>
+  <div><details><summary>Can you read my clipboard?</summary><p>No. Everything you copy is encrypted on your device with a key that is derived from your password (or clipboard passphrase) and never sent to us. The server only stores ciphertext and cannot decrypt it.</p></details><details><summary>What happens if I forget my password?</summary><p>You can reset it by email, but because only your password can unlock your clipboard key, the old clipboard history is deleted on reset. Your account and devices keep working. Clipboard items expire after 7 days anyway.</p></details><details><summary>Does it sync when I am signed out?</summary><p>No. A device only reads or writes its clipboard while it has an active session. Sign out, revoke the device from the website, or let the session expire and syncing on that device stops immediately.</p></details><details><summary>Which platforms are supported?</summary><p>Windows, Linux (Wayland and X11), macOS and Android through the uclip command-line app, plus any modern browser and an installable Android web app.</p></details><details><summary>What does it cost?</summary><p>Nothing to try. This is a private deployment: sign-ups may be limited by the operator.</p></details><details><summary>Can I use my own server?</summary><p>Yes. The relay is a single dependency-free Node.js program with Docker and Caddy files included. Point the CLI at it with --server.</p></details></div>
+</div></section>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="/"><img src="/icon.svg" alt="" width="26" height="26"><span>u<b>clip</b></span></a>
+      <p class="dim">Copy here. Paste there.<br>End-to-end encrypted clipboard sync.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/security">Security</a>
+      <a href="/docs">API docs</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/.well-known/security.txt">security.txt</a>
+    </nav>
+  </div>
+</footer>
+<script type="module" src="/landing.js"></script>
 </body>
 </html>

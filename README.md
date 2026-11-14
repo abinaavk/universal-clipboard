@@ -1,108 +1,92 @@
-# Universal Clipboard
+# Universal Clipboard (uclip)
 
-A private, synchronised clipboard for Windows, Linux, Android and browsers.
-Copy on one device, paste on another. Zero runtime dependencies (Node ≥ 20).
+Copy on one device, paste on another. A private, **end-to-end encrypted** clipboard that syncs live across Windows, Linux, macOS, Android and any browser, with real accounts (email + password or Google).
 
-## How it works
+Live site: <https://uclip.gaiasentinel.online>
 
-![How Universal Clipboard works: devices, accounts (vaults), the relay, and how a copy travels](docs/how-it-works.png)
+![How it works](docs/how-it-works.png)
 
-(Vector version: [docs/how-it-works.svg](docs/how-it-works.svg).)
+## Using it
 
-```
- Windows / Linux / Termux           Browser / Android PWA
-   uclip daemon  ──encrypted──►  relay server  ◄──encrypted──  web app
-        ▲                       (sees ciphertext only)             ▲
-        └──────── same passphrase ⇒ same vault, same key ──────────┘
-```
-
-* **End-to-end encrypted.** A passphrase is stretched (PBKDF2-SHA256, 310k iterations) into an
-  auth token and an AES-256-GCM key, on the device. The server stores only
-  `SHA-256(token)` as the vault id and opaque ciphertext. It cannot read, forge or modify items.
-* **Real-time.** Server-Sent Events push new items; clients reconnect with backoff and resume
-  from the last sequence number.
-* **Bounded retention.** Last 100 items, 7 days (`UC_MAX_ITEMS`, `UC_TTL_HOURS`). Delete any item or clear all.
-* **No accounts.** A vault exists the first time someone connects with a new passphrase.
-  Set `UC_INVITE_CODE` to stop strangers creating vaults on your server.
-
-## Quick start
+1. **Create an account** on the website: `/signup` (email + password, or Continue with Google).
+2. **Sign in on each device**
+   - *Browser / Android web app:* open the site and sign in. Menu → Install app on Android.
+   - *Windows, Linux, macOS, Termux:* install the app and run `uclip login`. It prints a code; open the link, confirm the code and your password in the browser. (`uclip login --email you@example.com` signs in directly with email and password.)
+3. **Copy as usual.** Run `uclip daemon` (or keep the web tab open). Anything copied on a signed-in device appears on the others within about a second.
 
 ```bash
-# 1. Run the relay (put it behind HTTPS, see below)
-npm start                      # http://127.0.0.1:8787
-# or: docker build -t uclip . && docker run -p 8787:8787 -v uclip-data:/data uclip
+# Linux / macOS / Termux (needs Node.js 20+; on Linux also wl-clipboard or xclip)
+curl -fsSL https://uclip.gaiasentinel.online/install.sh | sh
+# Windows (PowerShell, needs Node.js 20+)
+irm https://uclip.gaiasentinel.online/install.ps1 | iex
 
-# 2. On each computer
-node cli/uclip.js init --server https://clip.example.com     # prints a new passphrase
-node cli/uclip.js daemon                                      # starts syncing
-
-# 3. Second computer: reuse the passphrase
-node cli/uclip.js init --server https://clip.example.com --passphrase xxxxx-xxxxx-...
-
-# 4. Phone / browser: open the server URL and enter the passphrase,
-#    or run `uclip pair` and open the printed link (the secret is in the #fragment, never sent to the server).
+uclip login
+uclip daemon
 ```
 
-`npm link` (or copy `cli/`, `shared/` anywhere) installs the `uclip` command.
+Other commands: `uclip copy "text"`, `uclip paste`, `uclip history -n 10`, `uclip devices [--revoke <id>]`, `uclip whoami`, `uclip clear`, `uclip logout`, `uclip status`.
 
-### Platforms
+Run the daemon at login: on Linux put `ExecStart=%h/.local/bin/uclip daemon` in a systemd user unit (`systemctl --user enable --now uclip`); on Windows create a Task Scheduler task "At log on" running `uclip.cmd daemon`. The daemon waits quietly while signed out and starts syncing by itself after `uclip login`.
 
-| Platform | How | Clipboard tool |
-|---|---|---|
-| Windows | `uclip daemon` | built-in PowerShell (`Get/Set-Clipboard`) |
-| Linux (Wayland) | `uclip daemon` | `wl-clipboard` |
-| Linux (X11) | `uclip daemon` | `xclip` or `xsel` |
-| macOS | `uclip daemon` | `pbcopy`/`pbpaste` |
-| Android | install the web app (Chrome → *Add to Home screen*): Share → *Universal Clipboard* sends text; open the app to copy items. For background sync run `uclip daemon` in **Termux** with `termux-api` | `termux-clipboard-*` |
-| Any browser | open the server URL | Async Clipboard API |
+### Only active sessions touch the clipboard
 
-Browsers and Android do not allow silent background clipboard access, so the web app syncs while open
-(optionally auto-copying incoming items when focused). Full background sync on Android needs Termux.
+- A device syncs only while its session is valid *and* currently confirmed by the server. No session, or offline from the server, means nothing is uploaded and nothing is written locally.
+- Sign out (`uclip logout`, or **Sign out** next to a device on the website), password change, password reset, account deletion or 30 days of disuse all end sessions. The server cuts the live connection immediately; the daemon stops, **wipes its stored token and vault key**, and resumes automatically after the next `uclip login`.
+- Whatever was on the clipboard before a session starts is never uploaded.
+- The web app only auto-copies and captures the clipboard while signed in.
 
-### HTTPS is required for the web app
+## Security model
 
-Browsers only expose WebCrypto and the Clipboard API on `https://` (or `localhost`). Put the relay behind
-Caddy/nginx/Cloudflare Tunnel/Tailscale Serve. Disable proxy buffering for `/api/v1/events` (the relay sends `X-Accel-Buffering: no`).
+- Each account has a random 256-bit **vault key** that encrypts items (AES-256-GCM) on the device. The server stores it only **wrapped**.
+- *Password accounts:* PBKDF2-SHA-256 (310k) of the password, salted with the email, yields 512 bits. One half is the `authKey` (the server stores only a salted scrypt hash of it); the other half is the key that wraps the vault key. The password never leaves the device.
+- *Google accounts:* no password to derive from, so the user creates a **clipboard passphrase** that wraps the vault key the same way.
+- *New CLI devices* get the vault key sealed (ECDH P-256 + HKDF + AES-GCM) to a one-time key held by that process; the approving browser unseals it with your password and the server only relays the blob.
+- Sessions: random 256-bit tokens, only SHA-256 stored. Browsers use an `HttpOnly; SameSite=Strict; Secure` cookie plus CSRF header and origin check; devices use bearer tokens.
+- Password reset **cannot** recover old clipboard items (they were encrypted under the lost key), so reset deletes them.
+- Website: strict CSP (no inline script/style, no third-party origins), HSTS, no framing, no referrer, permissions policy, rate limits per address and per account, generic responses for password-reset requests.
+- Limits: text only; items kept 7 days (max 100); a weak password is guessable offline if the server data leaks; a compromised device can read its own clipboard. See `/security`.
 
-## CLI
-
-```
-uclip init --server <url> [--passphrase <p>] [--device <name>] [--invite <code>]
-uclip daemon | copy [text] | paste | history [-n 10] | pair | clear | status
-```
-Config lives in `~/.config/universal-clipboard/config.json` (`%APPDATA%\universal-clipboard` on Windows), mode 0600.
-It contains the passphrase, so protect it like an SSH key.
-
-## Server configuration
-
-| Env var | Default | |
-|---|---|---|
-| `HOST` / `PORT` | `127.0.0.1` / `8787` | bind address |
-| `UC_DATA_DIR` | `./data` | where `vaults.json` (ciphertext) is stored |
-| `UC_INVITE_CODE` | *(none)* | required (`X-Invite-Code`, `uclip init --invite`) to create a vault |
-| `UC_MAX_VAULTS` | `100` | |
-| `UC_MAX_ITEMS` / `UC_TTL_HOURS` | `100` / `168` | retention per vault |
-| `UC_MAX_BODY_BYTES` | `1000000` | max item size |
-
-## Security notes and limits
-
-* Security equals passphrase strength. Generated passphrases have ~198 bits; if you choose your own, use a long one.
-  The KDF salt is fixed (there is no account to hold a per-user salt), so weak passphrases are vulnerable to offline guessing by anyone who obtains the server's data or the token.
-* The server and anyone on the network path see metadata: timestamps, item sizes, IP addresses. Use TLS.
-* The sign-in link and the CLI config both contain the passphrase. The browser stores only a non-extractable derived key (IndexedDB), never the passphrase.
-* Text only for now. Images/files are not yet supported.
-* The daemon polls the clipboard once a second (native tools have no change events); set `UCLIP_POLL_MS` to tune.
-* Clipboard managers' "sensitive" flags (e.g. password managers) are not honoured. Stop the daemon when copying secrets you do not want synced.
-
-## Development
+## Running the server
 
 ```bash
-npm test      # crypto, relay API, SSE resume, retention, auth isolation, and two real daemons syncing end-to-end
+npm start                 # http://127.0.0.1:8787, no dependencies, Node 20+
+npm test
 ```
 
-Layout: `server/` relay · `shared/` crypto + API client (used by browser and CLI) · `web/` PWA · `cli/` daemon.
+Production (HTTPS via Caddy, automatic certificates):
+
+```bash
+cp deploy/env.example .env      # fill in the keys, see below
+docker compose up -d --build    # serves https://$UC_DOMAIN
+```
+
+What you need to supply:
+
+| Need | Why | Where |
+|---|---|---|
+| A host with ports 80/443 and DNS `A/AAAA` for `uclip.gaiasentinel.online` | Hosting and TLS | your DNS / VPS |
+| `UC_RESEND_API_KEY` (+ verified sending domain) | Confirmation and reset emails. Without it links are printed to the server log and email verification is off | resend.com |
+| `UC_GOOGLE_CLIENT_ID` / `UC_GOOGLE_CLIENT_SECRET` | Google sign-in. Redirect URI: `https://uclip.gaiasentinel.online/api/v1/auth/google/callback` | Google Cloud Console → Credentials |
+
+Configuration (environment): `UC_PUBLIC_URL`, `UC_DATA_DIR`, `UC_SIGNUPS=open|closed`, `UC_INVITE_CODE`, `UC_MAX_USERS`, `UC_REQUIRE_VERIFIED_EMAIL`, `UC_SESSION_TTL_DAYS`, `UC_TTL_HOURS`, `UC_MAX_ITEMS`, `UC_TRUST_PROXY=1` (behind a reverse proxy; the Docker image sets it), `UC_MAIL_FROM`. Back up the `/data` volume (`db.json`).
+
+The store is a single JSON file, which suits a personal or small deployment. Use a real database before running it for many thousands of users.
+
+## API
+
+OpenAPI 3.1 at `/api/v1/openapi.json`, rendered at `/docs`. Website extras: `/robots.txt`, `/sitemap.xml`, `/.well-known/security.txt`, Open Graph image, JSON-LD, installable PWA with Android share target.
+
+## Layout
+
+```
+server/   relay + website server (http, auth, google, mail, rate limit, openapi)
+shared/   crypto, API client and account flows used by both browser and CLI
+cli/      uclip command + daemon, clipboard backends (Windows, Wayland, X11, macOS, Termux)
+web/      landing, docs, legal pages and the app (static, no build step)
+deploy/   Caddyfile and env example;  Dockerfile and docker-compose.yml at the root
+test/     node:test suites (crypto, server/accounts/google/website, daemon e2e)
+```
 
 ## Status
 
-Verified by the automated tests above on Linux/Node 24 using a file-backed fake clipboard.
-**Not yet verified on real hardware:** the Windows PowerShell backend, Wayland/X11/Termux backends, and the browser UI/PWA/share-target on Android.
+Automated tests cover accounts, sessions, Google flow (against a mock Google), device approval, CSRF, rate limiting, the website/SEO files, the installer, and two real `uclip daemon` processes including the session-only behaviour. The web app was driven in headless Chromium (sign-up, live sync between two browsers, revoke). **Not yet exercised on real hardware:** the Windows PowerShell backend and `install.ps1`, Wayland/X11/Termux backends, the Android PWA, and a real Google/Resend account.

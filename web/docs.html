@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>API documentation | Universal Clipboard</title>
+<meta name="description" content="HTTP API reference for Universal Clipboard: accounts, device sessions, device approval, encrypted clipboard items and live events. OpenAPI 3.1 spec included.">
+<meta name="robots" content="index,follow">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0d1016">
+<link rel="canonical" href="{{ORIGIN}}/docs">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:site_name" content="Universal Clipboard">
+<meta property="og:type" content="website">
+<meta property="og:title" content="API documentation | Universal Clipboard">
+<meta property="og:description" content="HTTP API reference for Universal Clipboard: accounts, device sessions, device approval, encrypted clipboard items and live events. OpenAPI 3.1 spec included.">
+<meta property="og:url" content="{{ORIGIN}}/docs">
+<meta property="og:image" content="{{ORIGIN}}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Universal Clipboard: copy here, paste there">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="API documentation | Universal Clipboard">
+<meta name="twitter:description" content="HTTP API reference for Universal Clipboard: accounts, device sessions, device approval, encrypted clipboard items and live events. OpenAPI 3.1 spec included.">
+<meta name="twitter:image" content="{{ORIGIN}}/og.png">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Universal Clipboard home"><img src="/icon.svg" alt="" width="30" height="30"><span>u<b>clip</b></span></a>
+    <nav aria-label="Main">
+      <a href="/#how">How it works</a>
+      <a href="/#install">Install</a>
+      <a href="/security">Security</a>
+      <a href="/docs">API</a>
+      <a class="btn small ghost" href="/login">Sign in</a>
+      <a class="btn small" href="/signup">Get started</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<div class="docs-layout">
+  <nav class="docs-nav" id="docs-nav" aria-label="API sections"></nav>
+  <div>
+    <h1>HTTP API</h1>
+    <p class="lead dim">Everything the website and the <code>uclip</code> app do goes through this API. Clipboard payloads are end-to-end encrypted by the client, so the API only ever carries ciphertext. The machine-readable spec is at <a href="/api/v1/openapi.json">/api/v1/openapi.json</a> (OpenAPI 3.1).</p>
+    <div class="notice"><strong>Authentication.</strong> Devices send <code>Authorization: Bearer uc_…</code>. Browsers use the HttpOnly session cookie and add <code>x-uc-csrf: 1</code> to non-GET requests. Passwords are never sent: clients send a derived <code>authKey</code>.</div>
+    <div id="docs-root"><p class="dim">Loading…</p></div>
+  </div>
+</div>
+</main>
+<footer class="site-foot">
+  <div class="wrap">
+    <div>
+      <a class="brand" href="/"><img src="/icon.svg" alt="" width="26" height="26"><span>u<b>clip</b></span></a>
+      <p class="dim">Copy here. Paste there.<br>End-to-end encrypted clipboard sync.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="/security">Security</a>
+      <a href="/docs">API docs</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/.well-known/security.txt">security.txt</a>
+    </nav>
+  </div>
+</footer>
+<script type="module" src="/docs.js"></script>
+</body>
+</html>

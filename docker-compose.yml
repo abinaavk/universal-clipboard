@@ -1,0 +1,31 @@
+# Production stack: the relay + Caddy for HTTPS.   docker compose up -d --build
+# Copy deploy/env.example to .env and fill it in first.
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      UC_PUBLIC_URL: https://${UC_DOMAIN:-uclip.gaiasentinel.online}
+    volumes:
+      - uclip-data:/data
+    expose:
+      - '8787'
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [app]
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      UC_DOMAIN: ${UC_DOMAIN:-uclip.gaiasentinel.online}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+volumes:
+  uclip-data:
+  caddy-data:
+  caddy-config:

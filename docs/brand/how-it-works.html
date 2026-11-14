@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0}
+body{width:1600px;height:1060px;background:#0d1016;color:#eef1f6;font-family:'DejaVu Sans','Liberation Sans',Arial,sans-serif;position:relative;overflow:hidden}
+.grid{position:absolute;inset:0;background-image:linear-gradient(#2a3242 1px,transparent 1px),linear-gradient(90deg,#2a3242 1px,transparent 1px);background-size:50px 50px;opacity:.22}
+h1{position:absolute;left:60px;top:40px;font-size:44px;letter-spacing:-1.5px}h1 b{color:#d7ff3f}
+.sub{position:absolute;left:62px;top:102px;font-size:20px;color:#98a2b5}
+.box{position:absolute;background:#141922;border:2px solid #2a3242;border-radius:22px;padding:22px 26px}
+.box h2{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:#98a2b5;margin-bottom:14px;font-family:'DejaVu Sans Mono',monospace}
+.box p{font-size:19px;line-height:1.45;color:#d3dae6}
+code{font-family:'DejaVu Sans Mono',monospace;background:#0a0d12;border-radius:8px;padding:2px 8px;color:#d7ff3f;font-size:17px}
+.num{z-index:5;position:absolute;width:44px;height:44px;border-radius:50%;background:#d7ff3f;color:#12170a;font-weight:800;font-size:22px;display:grid;place-items:center}
+.site{left:60px;top:170px;width:470px;height:250px;border-color:#d7ff3f}
+.relay{left:565px;top:170px;width:470px;height:250px}
+.sess{left:1070px;top:170px;width:470px;height:250px}
+.dev{width:360px;height:215px;border-radius:20px}
+.dev .g{font-size:40px}.dev h3{font-size:24px;margin:4px 0 8px}
+.dev p{font-size:16px}
+.d1{left:60px;top:520px}.d2{left:450px;top:520px}.d3{left:840px;top:520px}.d4{left:1230px;top:520px;width:310px}
+.arrow{position:absolute;font-size:34px;color:#d7ff3f}
+.lock{position:absolute;left:60px;top:780px;width:1480px;height:230px;border-radius:22px;border:2px dashed #2a3242;padding:24px 30px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.lock div{font-size:17px;line-height:1.45;color:#98a2b5}.lock b{display:block;color:#eef1f6;font-size:19px;margin-bottom:6px}
+.tag{position:absolute;font:700 15px 'DejaVu Sans Mono',monospace;color:#98a2b5}
+</style></head><body><div class="grid"></div>
+<h1>u<b>clip</b>: how it works</h1>
+<div class="sub">Accounts, devices, and how a copy travels. Clipboard text is encrypted on your device; the relay only ever holds ciphertext.</div>
+
+<div class="num" style="left:40px;top:150px">1</div>
+<div class="box site"><h2>Website · uclip.gaiasentinel.online</h2><p>Create your account with <b>email + password</b> or <b>Google</b>. Your password never leaves the browser: it unlocks a random vault key that stays encrypted on the server.</p></div>
+<div class="arrow" style="left:535px;top:270px">⇄</div>
+<div class="box relay"><h2>Relay (server)</h2><p>Stores accounts, device sessions and <b>ciphertext only</b>. Pushes new clips live to every <b>active</b> session over a streaming connection. Cannot read anything.</p></div>
+<div class="arrow" style="left:1040px;top:270px">⇄</div>
+<div class="num" style="left:1050px;top:150px">3</div>
+<div class="box sess"><h2>Active sessions only</h2><p>Each device has its own session. Sign out or <b>revoke it on the website</b> and that device stops sending and receiving immediately and wipes its key.</p></div>
+
+<div class="num" style="left:40px;top:500px">2</div>
+<div class="tag" style="left:100px;top:488px">SIGN IN ON EACH DEVICE, THEN COPY AS USUAL</div>
+<div class="box dev d1"><div class="g">🪟</div><h3>Windows</h3><p><code>irm …/install.ps1 | iex</code><br><code>uclip login</code> → approve code on the website → <code>uclip daemon</code></p></div>
+<div class="box dev d2"><div class="g">🐧</div><h3>Linux</h3><p><code>curl …/install.sh | sh</code><br><code>uclip login</code> → approve code → <code>uclip daemon</code><br>Needs wl-clipboard or xclip</p></div>
+<div class="box dev d3"><div class="g">🤖</div><h3>Android</h3><p>Install the web app from Chrome, or run <code>uclip</code> in Termux for background sync.</p></div>
+<div class="box dev d4"><div class="g">🌐</div><h3>Any browser</h3><p>Sign in on the site. Ctrl+V to send, auto-copy incoming.</p></div>
+<div class="arrow" style="left:290px;top:430px">▲</div><div class="arrow" style="left:680px;top:430px">▲</div><div class="arrow" style="left:1070px;top:430px">▲</div><div class="arrow" style="left:1370px;top:430px">▲</div>
+
+<div class="lock">
+<div><b>① Copy</b>Use the normal copy command on any signed-in device. The daemon (or the open tab) notices it.</div>
+<div><b>② Encrypt</b>AES-256-GCM with your vault key, on the device, before anything is uploaded.</div>
+<div><b>③ Relay</b>The server stores the ciphertext and streams it to your other active sessions in about a second.</div>
+<div><b>④ Paste</b>Each device decrypts and puts it on its own clipboard. Paste anywhere. Different accounts never see each other's clips.</div>
+</div>
+</body></html>

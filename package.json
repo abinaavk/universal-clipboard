@@ -1,7 +1,7 @@
 {
   "name": "universal-clipboard",
-  "version": "0.1.0",
-  "description": "Private, end-to-end encrypted clipboard sync for Windows, Linux, Android and browsers.",
+  "version": "1.0.0",
+  "description": "Private, end-to-end encrypted clipboard sync for Windows, Linux, Android and browsers, with accounts.",
   "type": "module",
   "license": "MIT",
   "engines": { "node": ">=20" },

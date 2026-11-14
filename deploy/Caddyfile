@@ -1,0 +1,9 @@
+# Caddy terminates TLS (automatic Let's Encrypt certificates) and proxies to the app.
+# DNS: point an A/AAAA record for the domain at this host, and open ports 80 and 443.
+{$UC_DOMAIN:uclip.gaiasentinel.online} {
+	encode zstd gzip
+	reverse_proxy app:8787 {
+		# SSE (live clipboard) must not be buffered
+		flush_interval -1
+	}
+}
