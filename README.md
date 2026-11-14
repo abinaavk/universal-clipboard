@@ -62,7 +62,16 @@ docker compose up -d --build    # http://<host>:7410
 #    (set UC_BIND=127.0.0.1 in .env if the proxy is on the same machine)
 ```
 
-Without Docker (or on a host that runs a Python start file): `python3 app.py`. It reads `.env`, listens on `UC_PORT`/`UC_BIND` and starts the Node server, so Node.js 20+ must be installed.
+Without Docker, on a Python host (same layout as the other Python repos: `app.py` + `requirements.txt`). Node.js 20+ must be installed.
+
+```sh
+python3 -m pip install -r requirements.txt
+python3 app.py                                  # reads .env, listens on UC_PORT / UC_BIND
+# or, as a WSGI app behind your own HTTPS proxy:
+gunicorn --bind 127.0.0.1:7410 --workers 1 --threads 64 app:app
+```
+
+`app:app` starts the Node server on `127.0.0.1:UC_NODE_PORT` (default `7411`) on the first request and proxies everything to it, including the live event stream. Use exactly one worker with several threads (the data lives in one file and live connections are held in memory). Stopping gunicorn normally stops the Node child; if it is killed with SIGKILL, stop the leftover `node server/server.js` before restarting.
 
 HTTPS is required for the web app, Google sign-in and the installers. To let this stack serve HTTPS itself (ports 80/443, automatic certificates) use `docker compose --profile https up -d --build`.
 
@@ -87,7 +96,8 @@ OpenAPI 3.1 at `/api/v1/openapi.json`, rendered at `/docs`. Website extras: `/ro
 ## Layout
 
 ```
-app.py    Python launcher: loads .env and starts server/server.js
+app.py    Python start file: loads .env, starts server/server.js; `app` is a WSGI proxy for gunicorn
+requirements.txt  gunicorn (the only Python dependency)
 server/   relay + website server (http, auth, google, mail, rate limit, openapi)
 shared/   crypto, API client and account flows used by both browser and CLI
 cli/      uclip command + daemon, clipboard backends (Windows, Wayland, X11, macOS, Termux)
