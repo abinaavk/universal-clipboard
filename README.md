@@ -106,6 +106,10 @@ deploy/   Caddyfile and env example;  Dockerfile and docker-compose.yml at the r
 test/     node:test suites (crypto, server/accounts/google/website, daemon e2e)
 ```
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local setup, bug reports, pull requests and platform verification.
+
 ## Status
 
 Automated tests cover accounts, sessions, Google flow (against a mock Google), device approval, CSRF, rate limiting, the website/SEO files, the installer, and two real `uclip daemon` processes including the session-only behaviour. The web app was driven in headless Chromium (sign-up, live sync between two browsers, revoke). **Not yet exercised on real hardware:** the Windows PowerShell backend and `install.ps1`, Wayland/X11/Termux backends, the Android PWA, and a real Google/Resend account.
